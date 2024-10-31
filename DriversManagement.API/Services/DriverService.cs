@@ -61,11 +61,6 @@ public class DriverService : IDriverService
             .Take(take)
             .ToArrayAsync();
     }
-
-    public Task<ICollection<Vehicle>> FilterVehicles(string? model, int? year, string? driverFirstName)
-    {
-        // TODO
-    }
 }
 
 /*

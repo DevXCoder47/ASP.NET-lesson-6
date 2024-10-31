@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriversManagement.API.Migrations
 {
     [DbContext(typeof(DriversContext))]
-    [Migration("20241030180408_VehicleTable")]
+    [Migration("20241030235104_VehicleTable")]
     partial class VehicleTable
     {
         /// <inheritdoc />
@@ -61,6 +61,38 @@ namespace DriversManagement.API.Migrations
                     b.ToTable("Drivers");
                 });
 
+            modelBuilder.Entity("DriversManagement.API.Models.Vehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DriverId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Engine")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FuelCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DriverId");
+
+                    b.ToTable("Vehicles");
+                });
+
             modelBuilder.Entity("DriversManagement.API.Models.VehicleCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -93,6 +125,17 @@ namespace DriversManagement.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DriversManagement.API.Models.Vehicle", b =>
+                {
+                    b.HasOne("DriversManagement.API.Models.Driver", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("DriversManagement.API.Models.VehicleCategory", b =>

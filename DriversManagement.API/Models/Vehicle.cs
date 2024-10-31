@@ -7,6 +7,5 @@ public class Vehicle
     public int Year { get; set; }
     public string Engine { get; set; }
     public int FuelCapacity { get; set; }
-
     public Driver Driver { get; set; }
 }

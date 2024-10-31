@@ -38,19 +38,4 @@ public class DriverController : ControllerBase
                 LastName = x.LastName,
             }));
     }
-
-    [HttpGet("vehicles")]
-    public async Task<ActionResult<ICollection<Vehicle>>> GetVehicles(
-        [FromQuery] string? model,
-        [FromQuery] int? year, 
-        [FromQuery] string? driverFirstName)
-    {
-        return Ok(await _driverService.FilterVehicles(model, year, driverFirstName));
-    }
-    
-    [HttpPost]
-    public ActionResult AddDriver(DriverDTO driver)
-    {
-        return Ok();
-    }
 }
