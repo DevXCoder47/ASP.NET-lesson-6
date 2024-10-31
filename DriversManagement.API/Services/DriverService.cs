@@ -1,6 +1,5 @@
 ﻿using DriversManagement.API.Interfaces;
 using DriversManagement.API.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DriversManagement.API.Services;

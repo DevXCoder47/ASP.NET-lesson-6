@@ -1,4 +1,6 @@
-﻿using DriversManagement.API.Interfaces;
+﻿using AutoMapper;
+using DriversManagement.API.DTOs;
+using DriversManagement.API.Interfaces;
 using DriversManagement.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +12,18 @@ namespace DriversManagement.API.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly IVehicleService service;
-        public VehicleController(IVehicleService service)
+        private readonly IMapper mapper;
+        public VehicleController(IVehicleService service, IMapper mapper)
         {
             this.service = service;
+            this.mapper = mapper;
         }
         [HttpGet("all{direction}")]
-        public ActionResult<ICollection<Vehicle>> GetOrderedVehicles([FromRoute] string direction, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+        public ActionResult<ICollection<VehicleDTO>> GetOrderedVehicles([FromRoute] string direction, [FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             try
             {
-                return Ok(service.GetOrdered(direction, skip, take));
+                return Ok(service.GetOrdered(direction, skip, take).Select(mapper.Map<VehicleDTO>));
             }
             catch(Exception ex)
             {
@@ -27,11 +31,11 @@ namespace DriversManagement.API.Controllers
             }
         }
         [HttpGet("vehicle/year/{year}/model/{model}")]
-        public ActionResult<Vehicle> GetVehicleByDemands([FromRoute]int year, [FromRoute] string model)
+        public ActionResult<VehicleDTO> GetVehicleByDemands([FromRoute]int year, [FromRoute] string model)
         {
             try
             {
-                return Ok(service.GetVehicleByYearAndModel(year,model));
+                return Ok(mapper.Map<VehicleDTO>(service.GetVehicleByYearAndModel(year,model)));
             }
             catch (Exception ex)
             {
